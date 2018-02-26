@@ -1,0 +1,11 @@
+---
+- hosts: appserver
+  become: yes
+  tasks:
+  - name: Install node.js
+    command: yum install -y gcc-c++ make
+  - name: install
+    command: curl -sL https://rpm.nodesource.com/setup_8.x | sudo -E bash -
+  - name: check version
+    command: node -v
+  
