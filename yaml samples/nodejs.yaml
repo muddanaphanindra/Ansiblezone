@@ -2,10 +2,21 @@
 - hosts: appserver
   become: yes
   tasks:
-  - name: Install node.js
-    command: yum install -y gcc-c++ make
-  - name: install
-    command: curl -sL https://rpm.nodesource.com/setup_8.x | sudo -E bash -
+  - name: Install curl
+    yum:
+      name: curl
+      state: present
+  - name: enable nodejs
+    uri: 
+      url: https://rpm.nodesource.com/setup_8.x
+  - name: Install nodejs
+    yum:
+      name: nodejs
+      state: present
   - name: check version
-    command: node -v
+    yum:
+      name: node
+  - name: update
+    yum: 
+      name: update
   
