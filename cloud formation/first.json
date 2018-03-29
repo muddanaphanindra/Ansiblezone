@@ -1,0 +1,21 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "Learning cloudformation",
+    "Parameters": {
+
+    },
+    "Resources":{
+              
+              "deploy": {
+                "Type": "AWS::EC2::VPC",
+                "Properties": {
+                  "CidrBlock": "10.10.0.0/16",
+                  "Tags": [{"Key" : "foo", "Value" : "bar"}]
+                }
+              }
+              
+                  }
+       }
+
+
+    

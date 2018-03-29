@@ -1,0 +1,112 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation" ,
+    "Parameters":{
+        
+        "PublicAvailabilityZone": {
+            "Description": "select availability zone",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "PrivateAvailabilityZone": {
+            "Description": "select availability zone",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        }        
+    },
+    "Resources":{
+
+        "hellophani": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": {
+            "CidrBlock": "10.10.0.0/16",
+            "EnableDnsHostnames": true
+          }
+        },
+        
+        "securegroup": {
+          "Type": "AWS::EC2::InternetGateway"
+        },
+        "AttachGateway": {
+          "Type": "AWS::EC2::VPCGatewayAttachment",
+          "Properties": {
+            "VpcId": 
+            { "Ref": "hellophani" },
+            
+            "InternetGatewayId": { "Ref": "securegroup" }
+          }
+        },
+        
+        "securepublicsubnet": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "VpcId": 
+            { "Ref": "hellophani" },
+            "CidrBlock": "10.10.1.0/24",
+            "AvailabilityZone": 
+            { "Ref": "PublicAvailabilityZone" }        
+          }
+        },
+        
+        "secureprivatesubnet": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "VpcId": 
+            { "Ref": "hellophani" },
+            "CidrBlock": "10.10.2.0/24",
+            "AvailabilityZone":
+            { "Ref": "PrivateAvailabilityZone" }
+              
+          }
+        },
+        
+        "publicroutetable": {
+          "Type": "AWS::EC2::RouteTable",
+          "Properties": {
+            "VpcId": 
+            { "Ref": "hellophani" }
+          }
+        },
+        
+        "routeName": {
+          "Type": "AWS::EC2::Route",
+          "Properties": {
+            "RouteTableId": 
+            { "Ref": "publicroutetable" },
+            "DestinationCidrBlock": "0.0.0.0/0",
+            "GatewayId": 
+            { "Ref": "securegroup" }
+            
+          }
+        },
+        
+        "routeTableAssocName": {
+          "Type": "AWS::EC2::SubnetRouteTableAssociation",
+          "Properties": {
+            "SubnetId": 
+            { "Ref": "securepublicsubnet" }, 
+            "RouteTableId": 
+            { "Ref": "publicroutetable" }
+          }
+        },
+        
+        "routeTableAssocName": {
+          "Type": "AWS::EC2::SubnetRouteTableAssociation",
+          "Properties": {
+            "SubnetId": 
+            { "Ref": "secureprivatesubnet" },
+            "RouteTableId": 
+            { "Ref": "publicroutetable" }
+            
+          }
+        }
+        
+    },
+    "Outputs":{
+        
+        "vpc" : {
+          "Value" : 
+          { "Ref": "hellophani" }
+          
+        }
+        
+    }
+}
