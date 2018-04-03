@@ -1,0 +1,33 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation" ,
+    "Resources":{
+        
+        "s3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "AccessControl": "PublicRead",
+                "BucketName": "hb1234"
+
+            }
+        },
+        
+        "s3BucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket" : 
+                { "Ref": "s3Bucket" },
+                "PolicyDocument" : {
+                    "Statement":[{
+                        "Action":["s3:GetObject"],
+                        "Effect":"Allow",
+                        "Resource":{ "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "s3Bucket" } , "/*" ]]},
+                        "Principal":"*"
+                    }]
+                }
+            }
+        }
+        
+        
+    }   
+}

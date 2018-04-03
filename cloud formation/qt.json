@@ -1,0 +1,75 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation" ,
+    "Parameters": {
+        
+        "amiid": {
+            "Description": "this is ami id rsources",
+            "Type": "String",
+            "Default": "ami-227ce15a"
+        }
+        
+        
+        },
+        "Resources": {
+            "mysecgrp" : {
+                "Type" : "AWS::EC2::SecurityGroup",
+                "Properties" : {
+                  "GroupDescription" : "hi to all",
+                  "SecurityGroupIngress" : [{
+                      "IpProtocol" : "tcp",
+                      "FromPort" : "80",
+                      "ToPort" : "80",
+                      "CidrIp" : "0.0.0.0/0"
+                   },
+                   {
+                   "IpProtocol" : "tcp",
+                   "FromPort" : "8080",
+                   "ToPort" : "8080",
+                   "CidrIp" : "0.0.0.0/0"
+                }]
+            }
+        },
+            "quality": {
+                "Type": "AWS::EC2::Instance",
+                "Properties": {
+                    "KeyName":  "Ansible" ,
+                    "ImageId": 
+                    { "Ref": "amiid" },
+                    "InstanceType": "t2.micro",
+                    "Monitoring": "true",
+                    "SecurityGroupIds" : [
+                        { "Ref": "mysecgrp" } 
+                    ],
+                    "Tags": [
+                        {
+                            "Key": "-",
+                            "Value": "-"
+                        }
+                    ],
+                    "UserData": {
+                        "Fn::Base64": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "#!/bin/bash -ex",
+                                    "apt-get update -y",
+                                    "apt-get install tree -y"
+                                ]
+                            ]
+                        }
+                    }
+            }
+                    }
+        },
+
+        "Outputs":{
+        
+            "ec2ip" : {
+              "Value" : {"Fn::Join":["",["http://",{"Fn::GetAtt":["quality","PublicIp"]},":8080"]]}
+            }
+            
+        }
+    }
+
+                

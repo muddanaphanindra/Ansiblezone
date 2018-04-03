@@ -1,0 +1,58 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation",
+    "Parameters":{
+        
+        "amiid": {
+            "Description": "This is for amiid reference",
+            "Type": "String",
+            "Default": "ami-227ce15a"
+        },
+        "mysecgrp" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+              "GroupDescription" : "jenkins port and ssh terminal",
+              "SecurityGroupIngress" : [{
+              "IpProtocol":"tcp",
+              "FromPort":"8080",
+              "Toport":"8080",
+              "CidrIp":"0.0.0.0/0"
+              },
+              {
+                  "IpProtocol":"tcp",
+                  "FromPort":"22",
+                  "Toport":"22",
+                  "CidrIp":"0.0.0.0/0"
+                  }]
+            }
+          }
+        
+    }, 
+    "Resources":{
+        
+        "myec2": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": "Ansible",
+                "ImageId": 
+                { "Ref": "amiid" },
+                "InstanceType": "t2.micro",
+                "SecurityGroupIds":  [
+                {  "Ref": "mysecgrp" }
+                ]
+                     
+            }
+        }
+    },
+    
+    
+    
+    "Outputs":{
+        
+        "ec2ip" : {
+          "Value" : {"Fn::Join":["",["http://",{"Fn::GetAtt":["myec2","PublicIp"]},":8080"]]}
+        }
+        
+    }
+    
+}

@@ -1,0 +1,20 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation" ,
+    "Parameters": {
+        "bucketname" : {
+            "Type" : "Aws::S3::Bucket",
+            "Description" : "test"
+        }
+    },
+    "Resources":{
+        "rajasekhar": {
+            "Type" : "Aws::S3::Bucket",
+            "Properties":{
+                "BucketName": "rajasekhar"     
+            }
+    }
+    
+    }
+        
+}

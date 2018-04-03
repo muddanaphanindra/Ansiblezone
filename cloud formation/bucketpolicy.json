@@ -1,0 +1,22 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation",
+    "Resources":{
+        
+        "s3BucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket" : "phani-cli-4-practice",
+                "PolicyDocument" : {
+                    "Statement":[{
+                        "Action":["s3:GetObject"],
+                        "Effect":"Allow",
+                        "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Bucket" : "h1234" } , "/*" ]]},
+                        "Principal": "*"    
+                    }]
+                }
+            }
+        }
+        
+    }
+}

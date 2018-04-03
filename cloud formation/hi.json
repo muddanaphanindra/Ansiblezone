@@ -1,0 +1,27 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation",
+    "Resources":{
+        "Statement": [
+            {
+               "Effect": "Allow",
+               "Principal": "*",
+               "Action": "s3:GetObject",
+               "Resource": "arn:aws:s3:::phani-cli-4-practice/*"
+            },
+            {
+               "Effect": "Deny",
+               "Principal": "*",
+               "Action": "s3:GetObject",
+               "Resource": "arn:aws:s3:::MyBucket/phani-cli-4-practice/*"
+            },
+            {
+               "Action": [
+                  "s3:DeleteObject",
+                  "s3:PutObject"
+               ],
+               "Resource": "arn:aws:s3:::MyBucket/*"
+            }
+         ]
+    }
+}

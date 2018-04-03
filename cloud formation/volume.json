@@ -1,0 +1,28 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation" ,
+    "Resources":{
+        
+        "ec2Volume": {
+           "Type": "AWS::EC2::Volume",
+           "Properties": {
+              "AutoEnableIO": "true",
+              "AvailabilityZone": "us-west-2b",
+              "Encrypted": "false",
+              "Size": "8",
+              "SnapshotId": "snap-083b1cb776919c10a",
+              "Tags": [
+                    {
+                        "Key": "hi",
+                        "Value": "naveen"
+                    }
+                ],
+              "VolumeType" : "gp2"
+           }
+        }
+        
+       
+           
+        
+    }
+}

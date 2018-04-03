@@ -1,0 +1,30 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description": "This is cloud formation",
+    "Resources":{
+        
+        "creation of s3 bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "AccessControl": "PublicRead",
+                "BucketName": "naveenjbhg15"
+        
+            }
+        },
+        
+        "SampleBucketPolicy" : {
+            "Type" : "AWS::S3::BucketPolicy",
+            "Properties" : {
+              "Bucket" : {"Ref" : "creation of s3 bucket"},
+              "PolicyDocument": {
+                "Statement":[{
+                  "Action":["s3:GetObject"],
+                  "Effect":"Allow",
+                  "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "creation of s3 bucket" } , "/*" ]]},
+                  "Principal":"*"
+                }]
+              }
+            }
+          }
+    }
+}
