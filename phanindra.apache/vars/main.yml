@@ -1,0 +1,4 @@
+---
+# vars file for phanindra.apache
+apache_package_deb: apache
+apache_package_rhel: httpd

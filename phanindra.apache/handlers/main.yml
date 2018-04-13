@@ -1,0 +1,11 @@
+---
+# handlers file for phanindra.apache
+- name: restart apache on debian
+  service: 
+    name: "{{apache_package_debian}}"
+    state: restarted
+- name: restart apache on RedHat
+  service:
+    name: "{{apache_package_rhel}}"
+    state: restarted
+    
